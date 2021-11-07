@@ -3,7 +3,7 @@ on:
   pull_request:
   push: 
     branches: 
-      - main
+      - sql-tests-1
 env:
   LOG_LEVEL: info
 
@@ -71,7 +71,7 @@ jobs:
         run: swift package edit fluent-kit --path ../package
         working-directory: dependent
       - name: Run tests with Thread Sanitizer
-        run: swift test --enable-test-discovery --sanitize=thread
+        run: SWIFT_DETERMINISTIC_HASHING=1 swift test --enable-test-discovery --sanitize=thread
         working-directory: dependent
         env:
           POSTGRES_HOSTNAME_A: postgres-a
@@ -107,7 +107,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run tests with Thread Sanitizer
-        run: swift test --enable-test-discovery --sanitize=thread
+        run: SWIFT_DETERMINISTIC_HASHING=1 swift test --enable-test-discovery --sanitize=thread
 
   macos:
     strategy:
@@ -128,4 +128,4 @@ jobs:
       - name: Check out package
         uses: actions/checkout@v2
       - name: Run tests with Thread Sanitizer
-        run: swift test --enable-test-discovery --sanitize=thread
+        run: SWIFT_DETERMINISTIC_HASHING=1 swift test --enable-test-discovery --sanitize=thread
